@@ -3,15 +3,15 @@ package com.thinking.machines.hr.dl.dto;
 import com.thinking.machines.hr.dl.interfaces.dto.DesignationDTOInterface;
 
 public class DesignationDTO implements DesignationDTOInterface{
-    int code;
-    String title;
+    private int code;
+    private String title;
 
     public void setCode(int code) {
         this.code = code;
     }
 
     public int getCode() {
-        return code;
+        return this.code;
     }
 
     public void setTitle(java.lang.String title) {
@@ -19,7 +19,7 @@ public class DesignationDTO implements DesignationDTOInterface{
     }
 
     public java.lang.String getTitle() {
-        return title;
+        return this.title;
     }
 
     public boolean equals(Object other)

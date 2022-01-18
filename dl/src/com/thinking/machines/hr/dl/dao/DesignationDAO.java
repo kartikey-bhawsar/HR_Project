@@ -9,66 +9,64 @@ import java.io.RandomAccessFile;
 import java.util.*;
 
 public class DesignationDAO implements DesignationDAOInterface {
-    public final static String FILE_NAME = "Designation.data";
+    private final static String FILE_NAME = "designations.data";
 
     public void add(DesignationDTOInterface designationDTO) throws DAOException {
         if (designationDTO == null)
             throw new DAOException("Designation is null");
         if (designationDTO.getTitle() == null)
             throw new DAOException("Designation is null");
-        String title = designationDTO.getTitle();
+        String title = designationDTO.getTitle().trim();
+        if (title.length() == 0)
+            throw new DAOException("Length of designation is null");
         try {
             File file = new File(FILE_NAME);
             RandomAccessFile raf = new RandomAccessFile(file, "rw");
-            String lastGeneratedCodeString="";
-            int lastGeneratedCode=0;
-            String recordCountString="";
-            int recordCount=0;
-            if(raf.length()==0)
-            {
-                lastGeneratedCodeString+="0";
-                while(lastGeneratedCodeString.length()<10){
-                    lastGeneratedCodeString+=" ";
+            String lastGeneratedCodeString = "";
+            int lastGeneratedCode = 0;
+            String recordCountString = "";
+            int recordCount = 0;
+            if (raf.length() == 0) {
+                lastGeneratedCodeString += "0";
+                while (lastGeneratedCodeString.length() < 10) {
+                    lastGeneratedCodeString += " ";
                 }
-                recordCountString="0";
-                while(recordCountString.length()<10)
-                {
-                    recordCountString+=" ";
+                recordCountString = "0";
+                while (recordCountString.length() < 10) {
+                    recordCountString += " ";
                 }
-                raf.writeBytes(lastGeneratedCodeString);
-                raf.writeBytes("\n");
-                raf.writeBytes(recordCountString);
-                raf.writeBytes("\n");
+                raf.writeBytes(lastGeneratedCodeString + "\n");
+                raf.writeBytes(recordCountString + "\n");
+            } else {
+                lastGeneratedCodeString = raf.readLine().trim();
+                recordCountString = raf.readLine().trim();
+                lastGeneratedCode = Integer.parseInt(lastGeneratedCodeString);
+                recordCount = Integer.parseInt(recordCountString);
             }
-            else{
-                lastGeneratedCodeString=raf.readLine().trim();
-                recordCountString=raf.readLine().trim();
-                lastGeneratedCode=Integer.parseInt(lastGeneratedCodeString);
-                recordCount=Integer.parseInt(recordCountString);
-            }
-            
-            lastGeneratedCodeString=String.valueOf(lastGeneratedCode+1);
-            while(lastGeneratedCodeString.length()<10) lastGeneratedCodeString+=" ";
-            recordCountString=String.valueOf(recordCount+1);
-            while(recordCountString.length()<10) recordCountString+=" ";
-            
-            while(raf.getFilePointer()<raf.length())
-            {
-                int fCode=Integer.parseInt(raf.readLine().trim());
-                String fTitle=raf.readLine();
-                if(fTitle.equalsIgnoreCase(title)) {
+            designationDTO.setCode(lastGeneratedCode+1);
+            lastGeneratedCodeString = String.valueOf(lastGeneratedCode + 1);
+            while (lastGeneratedCodeString.length() < 10)
+                lastGeneratedCodeString += " ";
+            recordCountString = String.valueOf(recordCount + 1);
+            while (recordCountString.length() < 10)
+                recordCountString += " ";
+
+            while (raf.getFilePointer() < raf.length()) {
+                int fCode = Integer.parseInt(raf.readLine().trim());
+                String fTitle = raf.readLine();
+                if (fTitle.equalsIgnoreCase(title)) {
                     raf.close();
-                    throw new DAOException("Designation already exists");
-                }     
+                    throw new DAOException("Designation " + title + " already exists");
+                }
             }
-            raf.writeBytes(lastGeneratedCodeString+"\n");
-            raf.writeBytes(title+"\n");
+            raf.writeBytes(lastGeneratedCodeString + "\n");
+            raf.writeBytes(title + "\n");
             raf.seek(0);
-            raf.writeBytes(lastGeneratedCodeString+"\n");
-            raf.writeBytes(recordCountString+"\n");
+            raf.writeBytes(lastGeneratedCodeString + "\n");
+            raf.writeBytes(recordCountString + "\n");
             raf.close();
         } catch (Exception e) {
-            throw new DAOException("Error: "+ e.getMessage());
+            throw new DAOException("Error: " + e.getMessage());
         }
 
     }
