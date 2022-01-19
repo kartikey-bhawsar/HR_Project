@@ -10,13 +10,13 @@ public static void main(String gg[])
 {
 try
 {
-DesignationDAOInterface designationDAO;
-designationDAO=new DesignationDAO();
-Set<DesignationDTOInterface> designations;
-designations=designationDAO.getAll();
-designations.forEach((designationDTO)->{
-System.out.printf("Code : %d, Title : %s\n",designationDTO.getCode(),desginationDTO.getTitle());
-});
+    Set<DesignationDTOInterface> st;
+    DesignationDAOInterface dao=new DesignationDAO();
+    st=dao.getAll();
+    for(DesignationDTOInterface it:st)
+    {
+        System.out.println(it.getCode()+" "+it.getTitle());
+    }
 }catch(DAOException daoException)
 {
 System.out.println(daoException.getMessage());

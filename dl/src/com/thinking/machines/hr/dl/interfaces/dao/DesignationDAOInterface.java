@@ -2,7 +2,7 @@ package com.thinking.machines.hr.dl.interfaces.dao;
 
 import com.thinking.machines.hr.dl.interfaces.dto.*;
 import com.thinking.machines.hr.dl.exceptions.*;
-import java.util.TreeSet;
+import java.util.Set;
 
 public interface DesignationDAOInterface {
     public void add(DesignationDTOInterface designationDTO) throws DAOException;
@@ -11,7 +11,7 @@ public interface DesignationDAOInterface {
 
     public void delete(int code) throws DAOException;
 
-    public TreeSet<DesignationDTOInterface> getAll() throws DAOException;
+    public Set<DesignationDTOInterface> getAll() throws DAOException;
 
     public DesignationDTOInterface getByCode(int code) throws DAOException;
 

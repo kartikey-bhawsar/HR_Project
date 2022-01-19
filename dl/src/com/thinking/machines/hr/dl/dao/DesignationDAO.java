@@ -81,8 +81,33 @@ public class DesignationDAO implements DesignationDAOInterface {
         throw new DAOException("Not yet implemented");
     }
 
-    public TreeSet<DesignationDTOInterface> getAll() throws DAOException {
-        throw new DAOException("Not yet implemented");
+    public Set<DesignationDTOInterface> getAll() throws DAOException {
+        Set<DesignationDTOInterface> designations=new TreeSet<>();
+        try {
+            File file = new File(FILE_NAME);
+            if (!file.exists())
+                return designations;
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+            if (raf.length() == 0) {
+                raf.close();
+                return designations;
+            }
+            raf.readLine(); //for last generated code
+            raf.readLine(); //for record count
+            while(raf.getFilePointer()<raf.length())
+            {
+                int fCode=Integer.parseInt(raf.readLine().trim());
+                String fTitle=raf.readLine();
+                DesignationDTOInterface dto=new DesignationDTO();
+                dto.setCode(fCode);
+                dto.setTitle(fTitle);
+                designations.add(dto);
+            }
+            raf.close();
+            return designations;
+        } catch (IOException ioe) {
+            throw new DAOException(ioe.getMessage());
+        }
     }
 
     public DesignationDTOInterface getByCode(int code) throws DAOException {
