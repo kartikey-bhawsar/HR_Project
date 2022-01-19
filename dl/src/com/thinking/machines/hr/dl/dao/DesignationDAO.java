@@ -61,7 +61,7 @@ public class DesignationDAO implements DesignationDAOInterface {
                     throw new DAOException("Designation " + title + " already exists");
                 }
             }
-            raf.writeBytes(lastGeneratedCodeString + "\n");
+            raf.writeBytes((lastGeneratedCode+1) + "\n");
             raf.writeBytes(title + "\n");
             raf.seek(0);
             raf.writeBytes(lastGeneratedCodeString + "\n");
@@ -74,15 +74,136 @@ public class DesignationDAO implements DesignationDAOInterface {
     }
 
     public void update(DesignationDTOInterface designationDTO) throws DAOException {
-        throw new DAOException("Not yet implemented");
+        if (designationDTO == null)
+            throw new DAOException("Invalid Input");
+        if (designationDTO.getTitle() == null)
+            throw new DAOException("Invalid Input");
+        String title = designationDTO.getTitle().trim();
+        int code=designationDTO.getCode();
+        if(code<=0) throw new DAOException("Invalid code");
+        if (title.length() == 0)
+            throw new DAOException("Length of designation is null");
+        try {
+            File file = new File(FILE_NAME);
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+            if (raf.length() == 0) {
+                raf.close();
+                throw new DAOException("Invalid Input");
+            }
+            raf.readLine();
+            raf.readLine();
+            while(raf.getFilePointer()<raf.length()) // to check if the title already exists
+            {
+                raf.readLine();
+                String ftitle=raf.readLine();
+                if(ftitle.equalsIgnoreCase(title))
+                {
+                    raf.close();
+                    throw new DAOException("Title "+title+ "already exists");
+                }
+            }
+            File tmpFile=new File("tmp.txt");
+            RandomAccessFile rafTmp=new RandomAccessFile(tmpFile, "rw");
+            raf.seek(0);
+            rafTmp.writeBytes(raf.readLine()+"\n");
+            rafTmp.writeBytes(raf.readLine()+"\n");
+            boolean found=false;
+            while (raf.getFilePointer() < raf.length()) {
+                int fCode = Integer.parseInt(raf.readLine());
+                String fTitle=raf.readLine();
+                if (fCode==code) {
+                    found=true;
+                    rafTmp.writeBytes(fCode+"\n");
+                    rafTmp.writeBytes(title+"\n");
+                }
+                else{
+                    rafTmp.writeBytes(fCode+"\n");
+                    rafTmp.writeBytes(fTitle+"\n");
+                }
+            }
+            if(!found)
+            {
+                rafTmp.setLength(0);
+                rafTmp.close();
+                raf.close();
+                throw new DAOException("Invalid code "+code);
+            }
+            raf.seek(0);
+            rafTmp.seek(0);
+            while(rafTmp.getFilePointer()<rafTmp.length())
+            {
+                raf.writeBytes(rafTmp.readLine()+"\n");
+            }
+            raf.setLength(rafTmp.length());
+            rafTmp.close();
+            tmpFile.delete();
+            raf.close();
+        } catch (Exception e) {
+            throw new DAOException("Error: " + e.getMessage());
+        }
     }
 
     public void delete(int code) throws DAOException {
-        throw new DAOException("Not yet implemented");
+        if(code<=0) throw new DAOException("Invalid code");
+        try {
+            File file = new File(FILE_NAME);
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+            if (raf.length() == 0) {
+                raf.close();
+                throw new DAOException("Invalid Input");
+            }
+            File tmpFile=new File("tmp.txt");
+            RandomAccessFile rafTmp=new RandomAccessFile(tmpFile, "rw");
+            rafTmp.writeBytes(raf.readLine()+"\n");
+            rafTmp.writeBytes(raf.readLine()+"\n");
+            boolean found=false;
+            while (raf.getFilePointer() < raf.length()) {
+                int fCode = Integer.parseInt(raf.readLine());
+                String fTitle=raf.readLine();
+                if (fCode==code) {
+                    found=true;
+                }
+                else{
+                    rafTmp.writeBytes(fCode+"\n");
+                    rafTmp.writeBytes(fTitle+"\n");
+                }
+            }
+            if(!found)
+            {
+                rafTmp.setLength(0);
+                rafTmp.close();
+                raf.close();
+                throw new DAOException("Invalid code "+code);
+            }
+            raf.seek(0);
+            rafTmp.seek(0);
+            int lastGeneratedCode=Integer.parseInt(raf.readLine().trim());
+            int recordCount=Integer.parseInt(raf.readLine().trim());
+            lastGeneratedCode--;
+            recordCount--;
+            String lastGeneratedCodeString=String.valueOf(lastGeneratedCode);
+            while(lastGeneratedCodeString.length()<10) lastGeneratedCodeString+=" ";
+            String recordCountString=String.valueOf(recordCount);
+            while(recordCountString.length()<10) recordCountString+=" ";
+            rafTmp.writeBytes(lastGeneratedCodeString+"\n");
+            rafTmp.writeBytes(recordCountString+"\n");
+            rafTmp.seek(0);
+            raf.seek(0);
+            while(rafTmp.getFilePointer()<rafTmp.length())
+            {
+                raf.writeBytes(rafTmp.readLine()+"\n");
+            }
+            raf.setLength(rafTmp.length());
+            rafTmp.close();
+            tmpFile.delete();
+            raf.close();
+        } catch (Exception e) {
+            throw new DAOException("Error: " + e.getMessage());
+        }
     }
 
     public Set<DesignationDTOInterface> getAll() throws DAOException {
-        Set<DesignationDTOInterface> designations=new TreeSet<>();
+        Set<DesignationDTOInterface> designations = new TreeSet<>();
         try {
             File file = new File(FILE_NAME);
             if (!file.exists())
@@ -92,13 +213,12 @@ public class DesignationDAO implements DesignationDAOInterface {
                 raf.close();
                 return designations;
             }
-            raf.readLine(); //for last generated code
-            raf.readLine(); //for record count
-            while(raf.getFilePointer()<raf.length())
-            {
-                int fCode=Integer.parseInt(raf.readLine().trim());
-                String fTitle=raf.readLine();
-                DesignationDTOInterface dto=new DesignationDTO();
+            raf.readLine(); // for last generated code
+            raf.readLine(); // for record count
+            while (raf.getFilePointer() < raf.length()) {
+                int fCode = Integer.parseInt(raf.readLine().trim());
+                String fTitle = raf.readLine();
+                DesignationDTOInterface dto = new DesignationDTO();
                 dto.setCode(fCode);
                 dto.setTitle(fTitle);
                 designations.add(dto);
