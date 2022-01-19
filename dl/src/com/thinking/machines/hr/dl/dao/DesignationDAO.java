@@ -5,6 +5,7 @@ import com.thinking.machines.hr.dl.interfaces.dao.*;
 import com.thinking.machines.hr.dl.interfaces.dto.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.*;
 
@@ -43,7 +44,7 @@ public class DesignationDAO implements DesignationDAOInterface {
                 lastGeneratedCode = Integer.parseInt(lastGeneratedCodeString);
                 recordCount = Integer.parseInt(recordCountString);
             }
-            designationDTO.setCode(lastGeneratedCode+1);
+            designationDTO.setCode(lastGeneratedCode + 1);
             lastGeneratedCodeString = String.valueOf(lastGeneratedCode + 1);
             while (lastGeneratedCodeString.length() < 10)
                 lastGeneratedCodeString += " ";
@@ -100,6 +101,21 @@ public class DesignationDAO implements DesignationDAOInterface {
     }
 
     public int getCount() throws DAOException {
-        throw new DAOException("Not yet implemented");
+        try {
+            File file = new File(FILE_NAME);
+            if (!file.exists())
+                return 0;
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+            if (raf.length() == 0) {
+                raf.close();
+                return 0;
+            }
+            raf.readLine();
+            int count=Integer.parseInt(raf.readLine().trim());
+            raf.close();
+            return count;
+        } catch (IOException ioe) {
+            throw new DAOException(ioe.getMessage());
+        }
     }
 }
