@@ -177,12 +177,9 @@ public class DesignationDAO implements DesignationDAOInterface {
             }
             raf.seek(0);
             rafTmp.seek(0);
-            int lastGeneratedCode=Integer.parseInt(raf.readLine().trim());
+            String lastGeneratedCodeString=raf.readLine();
             int recordCount=Integer.parseInt(raf.readLine().trim());
-            lastGeneratedCode--;
             recordCount--;
-            String lastGeneratedCodeString=String.valueOf(lastGeneratedCode);
-            while(lastGeneratedCodeString.length()<10) lastGeneratedCodeString+=" ";
             String recordCountString=String.valueOf(recordCount);
             while(recordCountString.length()<10) recordCountString+=" ";
             rafTmp.writeBytes(lastGeneratedCodeString+"\n");
