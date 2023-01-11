@@ -24,7 +24,7 @@ public class EmployeeAddTestCase {
             dateOfBirth=new SimpleDateFormat("dd/MM/yyyy").parse(sc.nextLine());
         System.out.println("Enter Employee gender (M/F)");
         char gender=sc.next().charAt(0);
-        System.out.println("Is employee Indian");
+        System.out.println("Is employee Indian (true/false)");
         boolean isIndian=sc.nextBoolean();
         sc.nextLine();
         System.out.println("Enter Employee basic salary");
