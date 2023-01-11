@@ -117,4 +117,11 @@ public class EmployeeDTO implements EmployeeDTOInterface {
         return this.employeeId.toUpperCase().hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "EmployeeDTO [employeeId=" + employeeId + ", name=" + name + ", designationCode=" + designationCode
+                + ", dateOfBirth=" + dateOfBirth + ", gender=" + gender + ", isIndian=" + isIndian + ", basicSalary="
+                + basicSalary + ", aadharNumber=" + aadharNumber + ", panNumber=" + panNumber + "]";
+    }
+
 }
