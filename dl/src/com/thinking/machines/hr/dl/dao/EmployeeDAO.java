@@ -5,9 +5,6 @@ import com.thinking.machines.hr.dl.exceptions.*;
 import com.thinking.machines.hr.dl.interfaces.dao.*;
 import com.thinking.machines.hr.dl.interfaces.dto.*;
 import java.util.*;
-
-import javax.lang.model.element.RecordComponentElement;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -631,7 +628,6 @@ public class EmployeeDAO implements EmployeeDAOInterface {
                 }
             }
             return false;
-
         } catch (Exception e) {
             throw new DAOException(e.getMessage());
         }finally{
