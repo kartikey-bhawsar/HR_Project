@@ -347,6 +347,7 @@ public class EmployeeDAO implements EmployeeDAOInterface {
         try {
             if(new DesignationDAO().codeExists(designationCode)==false) throw new DAOException("Invalid Designation code: " + designationCode);
             File file = new File(FILE_NAME);
+            if(file.exists()==false) return false;
             RandomAccessFile raf = new RandomAccessFile(file, "r");
             if (raf.length() == 0) {
                 raf.close();

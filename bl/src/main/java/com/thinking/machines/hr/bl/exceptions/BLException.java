@@ -1,11 +1,17 @@
+package com.thinking.machines.hr.bl.exceptions;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BLException extends Exception{
-    Map<String,String> exceptions=new HashMap<>();
+    Map<String,String> exceptions;
     String genericException;
+    public BLException()
+    {
+        genericException=null;
+        exceptions=new HashMap<>();
+    }
     public void setGenericException(String exception)
     {
         this.genericException=exception;
