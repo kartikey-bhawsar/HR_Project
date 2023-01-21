@@ -5,7 +5,7 @@ import com.thinking.machines.hr.bl.interfaces.managers.DesignationManagerInterfa
 import com.thinking.machines.hr.bl.managers.DesignationManager;
 
 public class DesignationManagerGetDesignationByCodeTestCase {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BLException{
         try {
             DesignationManagerInterface designationManager = DesignationManager.getDesignationManager();
             System.out.println(designationManager.getDesignationByCode(2).getTitle());

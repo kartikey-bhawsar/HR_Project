@@ -24,7 +24,7 @@ public class DesignationManager implements DesignationManagerInterface {
     private static DesignationManager designationManager = null;
 
     private DesignationManager() throws BLException {
-        populateDataStructure();
+        this.populateDataStructure();
     }
 
     public static DesignationManager getDesignationManager() throws BLException {
