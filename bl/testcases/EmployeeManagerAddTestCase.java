@@ -1,5 +1,3 @@
-package bl.testcases;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,22 +14,21 @@ public class EmployeeManagerAddTestCase {
     public static void main(String[] args) {
         try {
             EmployeeInterface e=new Employee();
-            e.setAadharNumber("A1234");
-            e.setBasicSalary(new BigDecimal("435233"));
-            System.out.println("dgsdgdsgdf");
+            e.setAadharNumber("A75dfa23");
+            e.setBasicSalary(new BigDecimal("5460356"));
             try{
-                e.setDateOfBirth(new SimpleDateFormat("dd/MM/yyyy").parse("12/05/1993"));
+                e.setDateOfBirth(new SimpleDateFormat("dd/MM/yyyy").parse("10/09/1992"));
             }catch(ParseException pe)
             {
                 System.out.println(pe.getMessage());
             }
             DesignationInterface designation=new Designation();
-            designation.setCode(2);
+            designation.setCode(1);
             e.setDesignation(designation);
             e.setGender('M');
             e.setIsIndian(true);
-            e.setName("Sameer Gupta");
-            e.setPANNumber("U4321");
+            e.setName("Aryan Sharma");
+            e.setPANNumber("U6egfdgfw4");
             EmployeeManagerInterface empManager=EmployeeManager.getEmployeeManager();
             empManager.addEmployee(e);
             System.out.println("Employee successfully added with employee id: "+e.getEmployeeId());

@@ -1,12 +1,13 @@
 package com.thinking.machines.hr.bl.interfaces.pojo;
 
 import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 import com.thinking.machines.hr.bl.pojo.Employee;
 
-public interface EmployeeInterface{
+public interface EmployeeInterface extends Serializable,Comparable<EmployeeInterface>{
     public void setEmployeeId(String EmployeeId);
     public String getEmployeeId();
     public void setName(String name);

@@ -360,7 +360,11 @@ public class EmployeeDAO implements EmployeeDAOInterface {
                 raf.readLine();
                 raf.readLine();
                 int fDesignationCode=Integer.parseInt(raf.readLine());
-                if(fDesignationCode==designationCode) return true;
+                if(fDesignationCode==designationCode) 
+                {
+                    raf.close();
+                    return true;
+                }
                 for(int i=0;i<6;i++) raf.readLine();
             }
             raf.close();

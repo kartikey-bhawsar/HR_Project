@@ -12,7 +12,7 @@ public interface EmployeeManagerInterface {
     public EmployeeInterface getEmployeeByEmployeeId(String employeeId) throws BLException;
     public EmployeeInterface getEmployeeByPANNumber(String panNumber) throws BLException;
     public EmployeeInterface getEmployeeByAadharCardNumber(String aadharCardNumber) throws BLException;
-    public boolean employeeIdExists(int employeeId) throws BLException;
+    public boolean employeeIdExists(String employeeId) throws BLException;
     public boolean employeePANNumberExists(String panNumber) throws BLException;
     public boolean employeeAadharCardNumberExists(String aadharCardNumber) throws BLException;
     public int getEmployeeCount() throws BLException;

@@ -1,5 +1,3 @@
-package bl.testcases;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +14,7 @@ public class EmployeeManagerUpdateTestCase {
     public static void main(String[] args) {
         try {
             EmployeeInterface e=new Employee();
-            e.setEmployeeId("1000003");
+            e.setEmployeeId("1000002");
             e.setAadharNumber("A3234");
             e.setBasicSalary(new BigDecimal("435233"));
             System.out.println("dgsdgdsgdf");
